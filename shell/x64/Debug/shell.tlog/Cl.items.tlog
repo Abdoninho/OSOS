@@ -1,10 +1,10 @@
-E:\OS-YAA RAAB\OS-GitHub-master\shell\CommandProcessor.cpp;E:\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\CommandProcessor.obj
-E:\OS-YAA RAAB\OS-GitHub-master\shell\Converter.cpp;E:\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\Converter.obj
-E:\OS-YAA RAAB\OS-GitHub-master\shell\Directory.cpp;E:\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\Directory.obj
-E:\OS-YAA RAAB\OS-GitHub-master\shell\Directory_Entry.cpp;E:\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\Directory_Entry.obj
-E:\OS-YAA RAAB\OS-GitHub-master\shell\File_Entry.cpp;E:\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\File_Entry.obj
-E:\OS-YAA RAAB\OS-GitHub-master\shell\Mini_FAT.cpp;E:\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\Mini_FAT.obj
-E:\OS-YAA RAAB\OS-GitHub-master\shell\Parser.cpp;E:\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\Parser.obj
-E:\OS-YAA RAAB\OS-GitHub-master\shell\shell.cpp;E:\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\shell.obj
-E:\OS-YAA RAAB\OS-GitHub-master\shell\Tokenizer.cpp;E:\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\Tokenizer.obj
-E:\OS-YAA RAAB\OS-GitHub-master\shell\Virtual_Disk.cpp;E:\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\Virtual_Disk.obj
+C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\CommandProcessor.cpp;C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\CommandProcessor.obj
+C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\Converter.cpp;C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\Converter.obj
+C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\Directory.cpp;C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\Directory.obj
+C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\Directory_Entry.cpp;C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\Directory_Entry.obj
+C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\File_Entry.cpp;C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\File_Entry.obj
+C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\Mini_FAT.cpp;C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\Mini_FAT.obj
+C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\Parser.cpp;C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\Parser.obj
+C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\shell.cpp;C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\shell.obj
+C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\Tokenizer.cpp;C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\Tokenizer.obj
+C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\Virtual_Disk.cpp;C:\Users\abdel\OneDrive\سطح المكتب\OS-YAA RAAB\OS-GitHub-master\shell\x64\Debug\Virtual_Disk.obj

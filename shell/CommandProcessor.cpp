@@ -2,6 +2,7 @@
 #include "Directory.h"
 #include"Mini_FAT.h"
 #include <algorithm>
+#include <cstring>
 #include <cctype>
 #include <sstream> // For istringstream
 #include "File_Entry.h"
@@ -10,9 +11,7 @@
 #include <ios>
 #include "Parser.h"
 #include <fstream>    // For file I/O
-#include <filesystem>
-namespace fs =  filesystem;
-using namespace std;
+
 
 
 // Constructor implementation
@@ -405,6 +404,12 @@ void CommandProcessor::processCommand(const string& input, bool& isRunning)
             cout << "Error: Unknown command '" << input << "'. Type 'help' to see available commands.\n";
         }
     }
+
+    else if (cmd.name == "export") {
+
+        handleExport(cmd.arguments);
+    }
+
     else if (cmd.name == "rd")
     {
         if (cmd.arguments.empty())
@@ -1060,86 +1065,7 @@ void CommandProcessor::handleDir(const std::string& path)
 
 
 
-//
-//void CommandProcessor::handleEcho(const string& filePath)
-//{
-//    // 1. Parse the path to separate parent path and file name
-//    string parentPath;
-//    string fileName;
-//
-//    size_t lastSlash = filePath.find_last_of("/\\");
-//    if (lastSlash == string::npos)
-//    {
-//        // File to be created in the current directory
-//        parentPath = "";
-//        fileName = filePath;
-//    }
-//    else
-//    {
-//        parentPath = filePath.substr(0, lastSlash);
-//        fileName = filePath.substr(lastSlash + 1);
-//    }
-//
-//    // 2. Validate file name
-//    if (!isValidFileName(fileName))
-//    {
-//        cout << "Error: Invalid file name '" << fileName << "'.\n";
-//        return;
-//    }
-//
-//    // 3. Navigate to the parent directory
-//    Directory* parentDir = nullptr;
-//    if (parentPath.empty())
-//    {
-//        parentDir = *currentDirectoryPtr;
-//    }
-//    else
-//    {
-//        parentDir = MoveToDir(parentPath);
-//    }
-//
-//    if (parentDir == nullptr)
-//    {
-//        cout << "Error: Directory path '" << parentPath << "' does not exist.\n";
-//        return;
-//    }
-//
-//    // 4. Check if the file already exists
-//    for (const auto& entry : parentDir->DirOrFiles)
-//    {
-//        if (!entry.getIsFile()) // Ensure we're comparing directories
-//        {
-//            std::string existingName = entry.getName();
-//            std::string newName = fileName;
-//
-//            // Convert both names to lowercase for comparison
-//            std::transform(existingName.begin(), existingName.end(), existingName.begin(),
-//                [](unsigned char c) { return std::tolower(c); });
-//            std::transform(newName.begin(), newName.end(), newName.begin(),
-//                [](unsigned char c) { return std::tolower(c); });
-//
-//            if (existingName == newName)
-//            {
-//                std::cout << "Error: File '" << fileName << "' already exists.\n";
-//                return;
-//            }
-//        }
-//    }
-//
-//    // 5. Create a new Directory_Entry as a file with dir_attr = 0x00
-//    Directory_Entry newFile(fileName, 0x00, 0); // dir_attr = 0x00 for file, size = 0
-//
-//    // Optional Debug Statement to Verify dir_attr
-//    // cout << "Debug: Created file '" << newFile.getName() << "' with dir_attr = " << hex << (int)newFile.dir_attr << dec << "\n";
-//
-//    // 6. Add the new file to the parent directory
-//    parentDir->addEntry(newFile);
-//
-//    // 7. Persist changes (assuming writeDirectory correctly handles this)
-//    parentDir->writeDirectory(); // Ensure this function exists and works as expected
-//
-//    cout << "File '" << fileName << "' created successfully.\n";
-//}
+
 
 
 void CommandProcessor::handleEcho(const std::string& filePath)
@@ -1238,6 +1164,7 @@ void CommandProcessor::handleEcho(const std::string& filePath)
 
     // 11. Create the file entry with fileName, dir_attr = 0x00 (file)
     Directory_Entry newFileEntry(fileName, 0x00, /*firstCluster=*/0);
+    newFileEntry.setIsFile(true); // Mark as a file
     // No need to set isFile here; Directory_Entry constructor should handle it
 
     // 12. Add the new file to the parent directory
@@ -2014,3 +1941,98 @@ void CommandProcessor::handleCopy(const vector<string>& args)
     // **Unsupported Entry Type**
     cout << "Error: Unsupported entry type for '" << sourceName << "'.\n";
 }
+
+
+void CommandProcessor::handleExport(const vector<string>& args)
+{
+    // Check if arguments are provided
+    if (args.empty())
+    {
+        cout << "Error: Invalid syntax for export command.\n";
+        cout << "Usage: export [source] [destination]\n";
+        return;
+    }
+
+    string sourcePath = args[0];
+    string destinationPath = args.size() > 1 ? args[1] : ""; // Optional destination
+
+    // Locate the source in the virtual disk
+    Directory* parentDir = nullptr;
+    string fileName;
+
+    // Parse source path
+    size_t lastSlash = sourcePath.find_last_of("/\\");
+    if (lastSlash == string::npos)
+    {
+        // Source is in the current directory
+        parentDir = *currentDirectoryPtr;
+        fileName = sourcePath;
+    }
+    else
+    {
+        // Source includes directories
+        string parentPath = sourcePath.substr(0, lastSlash);
+        fileName = sourcePath.substr(lastSlash + 1);
+        parentDir = MoveToDir(parentPath);
+    }
+
+    // Check if source directory exists
+    if (!parentDir)
+    {
+        cout << "Error: Source path '" << sourcePath << "' does not exist.\n";
+        return;
+    }
+
+    // Search for the file in the directory
+    int entryIndex = parentDir->searchDirectory(fileName);
+    if (entryIndex == -1)
+    {
+        cout << "Error: Source '" << fileName << "' does not exist in the virtual disk.\n";
+        return;
+    }
+
+    Directory_Entry& entry = parentDir->DirOrFiles[entryIndex];
+
+    // Handle file export
+    if (entry.getIsFile())
+    {
+        File_Entry file(entry, parentDir);
+        file.readFileContent();
+
+        if (destinationPath.empty())
+        {
+            // Export to current executable directory with the same name
+            destinationPath = file.getName();
+        }
+        else
+        {
+            // Check if destination is a directory
+            if (destinationPath.back() == '\\' || destinationPath.back() == '/')
+            {
+                destinationPath += file.getName(); // Append the file name
+            }
+        }
+
+        // Export the file to the destination
+        ofstream outFile(destinationPath, ios::binary);
+        if (!outFile)
+        {
+            cout << "Error: Unable to write to destination file '" << destinationPath << "'.\n";
+            return;
+        }
+
+        outFile << file.getContent();
+        outFile.close();
+
+        cout << "File '" << file.getName() << "' exported successfully to '" << destinationPath << "'.\n";
+    }
+    else
+    {
+        cout << "Error: Exporting directories is not supported in this implementation.\n";
+    }
+}
+
+
+
+
+

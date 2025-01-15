@@ -40,6 +40,7 @@ private:
     void handleDel(const vector<string>& targets);
     void handleRename(const vector<string>& args);
     void handleCopy(const vector<string>& args);
+    void handleExport(const vector<string>& args);
     Directory* MoveToDir(string& path);
     File_Entry* MoveToFile(string& path);
     vector<string> commandHistory;
@@ -47,6 +48,10 @@ private:
     unordered_map<string, pair<string, string>> commandHelp;
     Directory** currentDirectoryPtr;
     Directory* currentDir;
+    
+
+
+
 };
 
 #endif // COMMANDPROCESSOR_H
